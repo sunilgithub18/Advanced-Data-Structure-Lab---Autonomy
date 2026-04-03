@@ -337,6 +337,17 @@ class BST{
 		NODE* returnroot(){
 			return root;
 		}
+		
+		void deleteBST(NODE *t){
+			if(t){
+				deleteBST(t->LC);
+				delete t;
+				deleteBST(t->RC);
+			}
+		}
+		void setRootNULL(){
+			root=NULL;
+		}
 
 };
 
@@ -345,14 +356,15 @@ int main(){
 	int choice=0;
 	string word, meaning;
 
-	while(choice != 6){
+	while(choice != 7){
 		cout<<"\n****************BST Operations**************";
 		cout<<"\n1. Add Node";
 		cout<<"\n2. Display BST";
 		cout<<"\n3. Delete Node";
 		cout<<"\n4. Update Node";
 		cout<<"\n5. Search Node";
-		cout<<"\n6. Exit";
+		cout<<"\n6. Delete Tree";
+		cout<<"\n7. Exit";
 		cin.ignore(numeric_limits<streamsize>::max(), '\n'); //clear buffer before taking new
 		cout<<"\nWhat operation you want::";
 		cin>>choice;
@@ -368,10 +380,16 @@ int main(){
 				break;
 			case 2:
 				cout<<"\nPrint words in ascending:\n";
-				P.displayAscBST(P.returnroot());
+				if(P.returnroot())
+					P.displayAscBST(P.returnroot());
+				else
+					cout<<"\nTree Empty!";
 				
 				cout<<"\n\nPrint words in descending:\n";
-				P.displayDscBST();
+				if(P.returnroot())
+					P.displayDscBST();
+				else
+					cout<<"\nTree Empty!";
 				break;
 			case 3:
 				cout<<"\nEnter woderd to be deleted::";
@@ -393,6 +411,10 @@ int main(){
 				
 				break;
 			case 6:
+				P.deleteBST(P.returnroot());
+				P.setRootNULL();
+				break;
+			case 7:
 				cout<<"\nThanks for using application!!";
 				break;
 			default:
