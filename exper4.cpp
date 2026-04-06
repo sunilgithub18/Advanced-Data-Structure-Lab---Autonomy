@@ -77,9 +77,9 @@ class AVL
     NODE *rr_rotate(NODE* Pptr)
 	{
 		NODE *Aptr;
-		Aptr = Pptr->RC;
-		Pptr->RC = Aptr->LC;
-		Aptr->LC = Pptr;
+		Aptr = Pptr->RC;//set a pointer to right child of the pivot
+		Pptr->RC = Aptr->LC; //set right child pointer of the pivot to left child of the child node of pivot
+		Aptr->LC = Pptr;//set a left child pointer of the right child of pivot to pivot itself
 		cout<<"\nRight-Right Rotation";
 		return Aptr;
 	}
@@ -88,9 +88,9 @@ class AVL
     NODE *ll_rotate(NODE* Pptr)
 	{
 		NODE *Aptr;
-		Aptr = Pptr->LC;
-		Pptr->LC = Aptr->RC;
-		Aptr->RC = Pptr;
+		Aptr = Pptr->LC; //set a pointer to left child of the pivot
+		Pptr->LC = Aptr->RC; //set left child pointer of the pivot to right child of the child node of pivot
+		Aptr->RC = Pptr; //set a left child pointer of the left child of pivot to pivot itself
 		cout<<"\nLeft-Left Rotation";
 		return Aptr;
 	}
@@ -100,9 +100,9 @@ class AVL
 	{
 		NODE *Aptr;
 		Aptr = Pptr->LC;
-		Pptr->LC = rr_rotate(Pptr);
+		Pptr->LC = rr_rotate(Pptr);//First rotate tree to left by applying RR rotation
 		cout<<"\nLeft-Right Rotation";
-		return ll_rotate(Pptr);	
+		return ll_rotate(Pptr);	//Next rotate tree to right by applying LL rotation
 	}
 	
 	//Function to perform RL-Rotation
@@ -110,30 +110,32 @@ class AVL
 	{
 		NODE *Aptr;
 		Aptr = Pptr->RC;
-		Pptr->RC = ll_rotate(Pptr);
+		Pptr->RC = ll_rotate(Pptr);//First rotate tree to right by applying LL rotation
 		cout<<"\nRight-Left Rotation";
-		return rr_rotate(Pptr);
+		return rr_rotate(Pptr); //Next rotate tree to left by applying RR rotation
 	}
 	
 	//Function to balance the tree
     NODE* balance(NODE* T)
 	{
 		int bal_factor = difference(T);
+		//if BF of pivot is positive then check its left child
 		if (bal_factor > 1) {
+			//if left child of pivot is having BF positive 
 			if (difference(T->LC) > 0)
-				T = ll_rotate(T);
+				T = ll_rotate(T);//Apply LL rotation
+			else //if left child of pivot is having BF is also negative
+				T = lr_rotate(T); ;//Apply LR rotation
+		} else if (bal_factor < -1) { //if BF of pivot is negative then check its right child
+			if (difference(T->RC) > 0)//if right child of pivot is having BF positive 
+				T = rl_rotate(T); //Apply RL rotation
 			else
-				T = lr_rotate(T);
-		} else if (bal_factor < -1) {
-			if (difference(T->RC) > 0)
-				T = rl_rotate(T);
-			else
-				T = rr_rotate(T);
+				T = rr_rotate(T);//Apply RR rotation
 		}
 		return T;	
 	}
 	
-	
+	//Recursive insertion in BST
     NODE* insert(NODE* T,WORD w)
 	{
 		
@@ -144,12 +146,12 @@ class AVL
 			T->RC = NULL;
 			root=T;
 			return T;
-		} else if(strcmp(w.key,T->data.key)<0) {
-				T->LC = insert(T->LC, w);
-				T = balance(T);
-		} else if (strcmp(w.key,T->data.key)>0) {
-				T->RC = insert(T->RC, w);
-				T = balance(T);
+		} else if(strcmp(w.key,T->data.key)<0) { //if new node is smaller than the current
+				T->LC = insert(T->LC, w);//Add node to the left of current
+				T = balance(T);//Check balance of the current 
+		} else if (strcmp(w.key,T->data.key)>0) {//if new node is larger than the current
+				T->RC = insert(T->RC, w); //Add node to the right of current
+				T = balance(T); //Check balance of the current
 		} 
 		
 		root=T;//update root after rotations
