@@ -156,10 +156,6 @@ void SequentialFile::updateRecord(string name){
 
 int main(){
 	int ch=0;
-	fstream out;
-	out.open("StudRecord.txt",ios::out);
-	out.close();
-	
 	while(ch!=5)
 	{
 		cout<<"\n*******  SEQUENTIAL ACCESS FILE PROGRAM USING C++ ********** \n\n";
