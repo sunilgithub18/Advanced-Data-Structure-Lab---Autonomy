@@ -165,14 +165,14 @@ int main(){
 		switch(ch)
 		{
 		case 1:
- 			t1.insert_record();
+ 			t1.insertRecord();
 			cout<<"\n\nRecord is Inserted..\n\n";
 			break;
 		case 2:
-			t1.displayAll();
+			t1.displayRecords();
 			break;
 		case 3:
-			t1.search_record();
+			t1.searchRecord();
 			break;
 		case 4:
 			t1.delete_record();
