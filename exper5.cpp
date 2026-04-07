@@ -53,7 +53,7 @@ class SequentialFile
 		void printData();
 		void insertRecord();
 		void displayRecords();
-		void deleteRecord();
+		void deleteRecord(string);
 		void updateRecord(string);
 		void searchRecord(string);
 };
@@ -154,15 +154,43 @@ void SequentialFile::updateRecord(string name){
 			inout.close();
 }
 
+void SequentialFile::deleteRecord(string name){
+			fstream in;//File stream object created under fstream class
+			//Open a file using open() function with first argument as file name and
+			//second argument as file modes.
+			in.open("employee1.txt",ios::in|ios::binary);
+			
+			//Open temp file for copying the records from original file
+			fstream out;
+			out.open("temp.txt",ios::out|ios::binary);
+			
+			//read from the original file untill all records are fetched 
+			//and End of the file occures
+			while(in.read((char*)&obj,sizeof(obj))){
+				//Copy all the records from original file to temp file,
+				//except one to be deleted
+				if(obj.name != name){
+					out.write((char*)&obj,sizeof(obj));
+				}
+			}
+			in.close();
+			out.close();
+			//delete original file
+			remove("employee1.txt");
+			//rename the temp file to the original name
+			rename("temp.txt","employee1.txt");
+}
+
 int main(){
 	SequentialFile t1;
 	string name;
 	int ch=0;
+	
 	while(ch!=6)
 	{
 		cout<<"\n*******  SEQUENTIAL ACCESS FILE PROGRAM USING C++ ********** \n\n";
-		cout<<"\n1.INSERT RECORD\n2.DISPLAY All Records \n3.SEARCH\n4.UPDATE Record\n\n5.DELETE Record\n6.EXIT.";
-		cout<<"\nEnter UR Choice : ";
+		cout<<"\n1.INSERT RECORD\n2.DISPLAY All RECORD\n3.SEARCH RECORD\n4.UPDATE RECORD\n5.DELETE RECORD\n6.EXIT.";
+		cout<<"\nWhat operations:";
 		cin >> ch;
 		switch(ch)
 		{
@@ -183,7 +211,7 @@ int main(){
 			cin>>name;
 			t1.updateRecord(name);
 			break;
-		case 4:
+		case 5:
 			cout<<"\nEnter the name to be deleted::";
 			cin>>name;
 			t1.deleteRecord(name);
@@ -193,8 +221,4 @@ int main(){
 		}
 	}
 	return 0;
-
-	
-	return 0;
-	
 }
