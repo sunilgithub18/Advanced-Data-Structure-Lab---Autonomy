@@ -155,11 +155,12 @@ void SequentialFile::updateRecord(string name){
 }
 
 int main(){
+	SequentialFile t1;
 	int ch=0;
-	while(ch!=5)
+	while(ch!=6)
 	{
 		cout<<"\n*******  SEQUENTIAL ACCESS FILE PROGRAM USING C++ ********** \n\n";
-		cout<<"\n1.INSERT RECORD\n2.DISPLAY All Records \n3.SEARCH\n4.Delete\n5.EXIT.";
+		cout<<"\n1.INSERT RECORD\n2.DISPLAY All Records \n3.SEARCH\n4.UPDATE Record\n\n5.DELETE Record\n6.EXIT.";
 		cout<<"\nEnter UR Choice : ";
 		cin >> ch;
 		switch(ch)
@@ -175,7 +176,7 @@ int main(){
 			t1.searchRecord();
 			break;
 		case 4:
-			t1.delete_record();
+			t1.updateRecord();
 			break;
 		case 5:
 			exit(0);
