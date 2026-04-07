@@ -156,6 +156,7 @@ void SequentialFile::updateRecord(string name){
 
 int main(){
 	SequentialFile t1;
+	string name;
 	int ch=0;
 	while(ch!=6)
 	{
@@ -173,12 +174,21 @@ int main(){
 			t1.displayRecords();
 			break;
 		case 3:
-			t1.searchRecord();
+			cout<<"\nEnter the name to be searched::";
+			cin>>name;
+			t1.searchRecord(name);
 			break;
 		case 4:
-			t1.updateRecord();
+			cout<<"\nEnter the name to be updated::";
+			cin>>name;
+			t1.updateRecord(name);
 			break;
-		case 5:
+		case 4:
+			cout<<"\nEnter the name to be deleted::";
+			cin>>name;
+			t1.deleteRecord(name);
+			break;
+		case 6:
 			exit(0);
 		}
 	}
