@@ -157,6 +157,34 @@ class AVL
 		root=T;//update root after rotations
 		return T;
 	}
+	
+	//Search node
+	void searchNode(string key){
+			int count=0;
+			if(root==NULL){
+				cout<<"\nTree Empty!!";
+						return;
+			}
+			else{
+				NODE *cur;
+				cur=root;
+				
+				while(cur){
+					count++;
+					if(key == cur->data.key){
+						cout<<"\nWord found!";
+						cout<<"\nThe number of comparisons are::"<<count;
+						return;
+					}
+					else if(key > cur->data.key)
+						cur=cur->RC;
+					else
+						cur=cur->LC;
+				}	
+			}
+			cout<<"\nNode not found";
+			
+		}
 
 	//INORDER Traversal of tree
 	void displayIN(NODE *T)
@@ -169,6 +197,8 @@ class AVL
 		}
 	}
 	
+	
+	
 };
 
 
@@ -180,12 +210,13 @@ int main(void)
    NODE* r;
    char key[30];
    cho=0;
-   while(cho != 3)
+   while(cho != 4)
    {
      cout<<"\n********DICTIONARY STORAGE using AVL*********";
      cout<<"\n1-ADD WORD";
      cout<<"\n2-DISPLAY DICTIONARY";
-     cout<<"\n3-EXIT";
+	 cout<<"\n3-SEARCH KEY";
+     cout<<"\n4-EXIT";
      cout<<"\nEnter ur choice:";
      cin>>cho;
 	 cin.ignore(numeric_limits<streamsize>::max(), '\n'); //clear buffer before taking new
@@ -202,10 +233,20 @@ int main(void)
 		cin.getline(w.meaning,100);
 		r=B.insert(B.getroot(),w);
 		break;
+		
        case 2:
 		B.displayIN(B.getroot());
 		break;
+		
 	   case 3:
+		cout<<"\nEnter keyword:";
+		cin.clear();//to clear the std in stream
+		fflush(stdin);// to flush the input buffer
+	    cin.getline(key,20);//getline function to read multiword string
+		B.searchNode(key);
+		break;
+		
+	   case 4:
 		cout<<"\nProgram Exits!!";
 		break;
        default:
@@ -215,6 +256,7 @@ int main(void)
 
    return 0;
 }
+
 
 /*
 D:\ICEM\AY-2022-23\SE\DSAL_Lab>a
